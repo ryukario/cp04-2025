@@ -157,6 +157,7 @@
     var etime = 0;
     var stoptime = 0;
     var keika = 0;
+    var resetset = 0;
     var stop = false;
 
 
@@ -203,11 +204,16 @@
 
     // ButtonCがクリックされた時の処理
     function btnCClick(e){
-        alarm();
+        resetset += 1;
         active = false;
         period = 60*parseInt($("#minute").val()) + parseInt($("#second").val());
         $("#time").html("経過時間: 0");
         $("#remain").html("残り時間: " + period);
+        if(resetset >= 1){
+            active = false;
+            stop = false;
+            resetset = 0;
+        }
         
     }
     
@@ -217,7 +223,6 @@
         if(active){
             etime = parseInt((new Date() - startTime)/1000 );
             rest = period - etime;
-            
             if(stop){
                 etime += keika;
                 stoptime = rest - keika;
